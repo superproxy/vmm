@@ -1,18 +1,23 @@
 @echo off
+
+rem ======virutalbox env====================
 set BOX_HOME=D:\Program Files\Oracle\VirtualBox
 if exist "%BOX_HOME%"  set VIRTUAL_BOX_HOME=%BOX_HOME%
 set BOX_HOME=C:\Program Files\Oracle\VirtualBox
 if exist "%BOX_HOME%"  set VIRTUAL_BOX_HOME=%BOX_HOME%
 
 set path=%VIRTUAL_BOX_HOME%;%path%
+rem ======virutalbox env end====================
 
 
+rem ========vmm env===============
 set VMM_HOME=%cd%
 set ROMS=%VMM_HOME%\.box
 if not exist "%ROMS%"  md  "%ROMS%"
 
 set VMM_BIN=%VMM_HOME%\.bin
 set path=%VMM_BIN%;%path%
+rem ========vmm env end===============
 
 
 
@@ -47,23 +52,30 @@ rem  export $1 path
 rem ====================vm add update delete clone  end==============
 
 rem ============control vm=====================
-@doskey vmmstart=VBoxManage.exe startvm  $*
-@doskey vmmup=VBoxManage.exe startvm  $*
+@doskey vmmstart=VBoxManage.exe startvm $1 $*
+@doskey vmmup=VBoxManage.exe startvm $1 --type headless 
+@doskey vmmstartgui=VBoxManage.exe startvm  $*
 @doskey vmmstop=VBoxManage.exe controlvm $1 poweroff $*
 @doskey vmmdown=VBoxManage.exe controlvm $1 poweroff $*
 @doskey vmmpause=VBoxManage.exe controlvm $1 pause  $*
-@doskey vmmresume=VBoxManage.exe controlvm $1 resume$*
-@doskey vmmsave=VBoxManage.exe controlvm $1 savestate  $*
+@doskey vmmresume=VBoxManage.exe controlvm $1 resume $*
+@doskey vmmsleep=VBoxManage.exe controlvm $1 savestate  $*
 rem ============control vm end=====================
+
 rem ==================info vm ==================
 @doskey vmmlist=VBoxManage.exe list vms$*
 @doskey vmmps=VBoxManage.exe list runningvms $*
 @doskey vmminfo=VBoxManage.exe showvminfo $*
+@doskey vmmrename=VBoxManage.exe modifyvm $1 --name $2 
 
 rem memory 单位MB
 @doskey vmmmem=VBoxManage.exe modifyvm $1 --memory $2 
 @doskey vmmcpus=VBoxManage.exe modifyvm $1 --cpus $2 
-@doskey vmmrename=VBoxManage.exe modifyvm $1 --name $2 
+rem  none|null|nat|bridged
+@doskey vmmnetwork=VBoxManage.exe modifyvm $1 --nic $2 
+@doskey vmmnetwork_nat=VBoxManage.exe modifyvm $1 --nic1 nat 
+@doskey vmmnetwork_b=VBoxManage.exe modifyvm $1 --nic1  bridged
+rem ip  double click icon in the left tree to show shell
 rem ==================info vm end==================
 
 
@@ -79,8 +91,8 @@ rem @echo type vmm help for more information
 goto end
 
 :help
-@echo *****VMM v1.0 a girl named v to help you^_^****** 
-@echo ============support cmds================="
+@echo *****VMM v1.0 a girl named V to assist you^_^****** 
+@echo *supported cmds:*
 @echo vmmget   download vmfiles"
 @echo vmmimport import a file into virtualbox"
 @echo vmminit import a exist vm file in roms"
