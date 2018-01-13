@@ -21,6 +21,7 @@ rem https://www.virtualbox.org/manual/ch08.htm    cmd list
 
 rem =========================== vm mirror=========================
 rem  use vmmget.bat 
+rem   http://cloud.centos.org/centos/7/vagrant/x86_64/images/
 rem @doskey vmmcentos7=wget http://cloud.centos.org/centos/7/vagrant/x86_64/images/CentOS-7-x86_64-Vagrant-1706_02.VirtualBox.box  -o %ROMS%\centos7.box
 rem =========================== vm mirror end=====================
 
@@ -28,9 +29,9 @@ rem =========================== vm mirror end=====================
 rem ====================vm add update delete clone==============
 rem import $1  filepath .vof
 @doskey vmminit=VBoxManage.exe import %ROMS%\$1\box.ovf
+@doskey vmmi=VBoxManage.exe import %ROMS%\$1.ova
 @doskey vmmimport=VBoxManage.exe import $1 $*
 rem @doskey vmmpull=wget $1 -o $2 & VBoxManage.exe import $2 $*
-@doskey vmmreg=VBoxManage.exe startvm  $*
 
 rem clone $1 name  $2 newname
 @doskey vmmclone=VBoxManage.exe clonevm $1 --name $2 --register 
@@ -41,7 +42,8 @@ rem  export $1 path
 
 @doskey vmmcreate=VBoxManage.exe createvm --name $1 --ostype linux --register --basefolder $2 $*
 @doskey vmmcreatetest=VBoxManage.exe createvm --name test  --ostype linux --register
-@doskey vmmadd=VBoxManage.exe registervm $*
+@doskey vmmreg=VBoxManage.exe registervm $*
+@doskey vmmremove=VBoxManage.exe unregistervm $1 --delete 
 rem ====================vm add update delete clone  end==============
 
 rem ============control vm=====================
@@ -52,9 +54,17 @@ rem ============control vm=====================
 @doskey vmmpause=VBoxManage.exe controlvm $1 pause  $*
 @doskey vmmresume=VBoxManage.exe controlvm $1 resume$*
 @doskey vmmsave=VBoxManage.exe controlvm $1 savestate  $*
+rem ============control vm end=====================
+rem ==================info vm ==================
 @doskey vmmlist=VBoxManage.exe list vms$*
 @doskey vmmps=VBoxManage.exe list runningvms $*
-rem ============control vm end=====================
+@doskey vmminfo=VBoxManage.exe showvminfo $*
+
+rem memory 单位MB
+@doskey vmmmem=VBoxManage.exe modifyvm $1 --memory $2 
+@doskey vmmcpus=VBoxManage.exe modifyvm $1 --cpus $2 
+@doskey vmmrename=VBoxManage.exe modifyvm $1 --name $2 
+rem ==================info vm end==================
 
 
 
@@ -73,9 +83,15 @@ goto end
 @echo ============support cmds================="
 @echo vmmget   download vmfiles"
 @echo vmmimport import a file into virtualbox"
+@echo vmminit import a exist vm file in roms"
 @echo vmmup run a vm
 @echo vmmdown poweroff a vm
 @echo vmmclone  clone a vm
+@echo vmmremove  remove a vm
+@echo vmminfo  centos7  # information about centos7
+@echo vmmcpus centos7 2   #2 cores 
+@echo vmmmem centos7 1000
+@echo vmmrename centos7 mycentos
 
 
 :end
