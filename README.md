@@ -10,5 +10,5 @@ vmm is a simple way to manage VirtualBox!
 ### vmmget tinylinux
 ### vmminit tinylinux
 ### vbm  modifyvm "Tiny Linux template"  --name tinylinux 
-### vmmup  tinylinux
+### vmmstart  tinylinux
 ### vmmclone  tinylinux  tinylinux2
