@@ -32,10 +32,13 @@ rem =========================== vm mirror end=====================
 
 
 rem ====================vm add update delete clone==============
+rem ova
+@doskey vmmadd=copy $1 %ROMS%
+@doskey vmmroms=ls -1 %ROMS%
+@doskey vmminit=VBoxManage.exe import %ROMS%\$1.ova
 rem import $1  filepath .vof
-@doskey vmminit=VBoxManage.exe import %ROMS%\$1\box.ovf
-@doskey vmmi=VBoxManage.exe import %ROMS%\$1.ova
-@doskey vmmimport=VBoxManage.exe import $1 $*
+@doskey vmmiovf=VBoxManage.exe import %ROMS%\$1\box.ovf
+@doskey vmmimport=VBoxManage.exe import %ROMS%\$1 
 rem @doskey vmmpull=wget $1 -o $2 & VBoxManage.exe import $2 $*
 
 rem clone $1 name  $2 newname
@@ -93,9 +96,10 @@ goto end
 :help
 @echo *****VMM v1.0 a girl named V to assist you^_^****** 
 @echo *supported cmds:*
-@echo vmmget   download vmfiles"
-@echo vmmimport import a file into virtualbox"
+@echo vmmget   download vmfiles into roms"
+@echo vmmadd add a vm file into roms"
 @echo vmminit import a exist vm file in roms"
+@echo vmmimport import a file into virtualbox"
 @echo vmmup run a vm
 @echo vmmdown poweroff a vm
 @echo vmmclone  clone a vm
@@ -107,3 +111,8 @@ goto end
 
 
 :end
+
+rem exit /b
+
+
+rem goto :eof
