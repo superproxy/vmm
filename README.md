@@ -1,14 +1,14 @@
-Vagrant Ì«ÖØÁË£¡ ¹úÄÚÍøÂçÎÊÌâ£¬¾µÏñºÜÂı
+#Vagrant å¤ªé‡äº†ï¼ å›½å†…ç½‘ç»œé—®é¢˜ï¼Œé•œåƒå¾ˆæ…¢
+
+vmm is NOT Vagrant, but like it! 
+vm based on VirtualBox  
+vm is a simple way to manage  virtulabox 
 
 
 
+###call vmm.bat
 
-
-
-
-*call vmm.bat
-
-*vmmget centos7
-*vmminit centos7
-*vmmup  centos-7-1-1.x86_64
-*vmmclone  centos-7-1-1.x86_64  centos7_2
+###vmmget centos7
+###vmminit centos7
+###vmmup  centos-7-1-1.x86_64
+###vmmclone  centos-7-1-1.x86_64  centos7_2
