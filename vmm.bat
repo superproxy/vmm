@@ -11,10 +11,9 @@ set VMM_BIN=%VMM_HOME%\.bin
 set path=%VMM_BIN%;%path%
 
 
-@doskey vbm=VBoxManage.exe $*
 
-rem http://cloud.centos.org/centos/7/vagrant/x86_64/images/CentOS-7-x86_64-Vagrant-1706_02.VirtualBox.box
-rem unzip
+rem https://www.virtualbox.org/manual/ch08.htm    cmd list
+@doskey vbm=VBoxManage.exe $*
 
 rem =========================== vm mirror=========================
 rem  use vmmget.bat 
@@ -24,7 +23,7 @@ rem =========================== vm mirror end=====================
 
 rem ====================vm add update delete clone==============
 rem import $1  filepath .vof
-@doskey vmminit= VBoxManage.exe import %ROMS%\$1\box.ovf
+@doskey vmminit=VBoxManage.exe import %ROMS%\$1\box.ovf
 @doskey vmmimport=VBoxManage.exe import $1 $*
 rem @doskey vmmpull=wget $1 -o $2 & VBoxManage.exe import $2 $*
 @doskey vmmreg=VBoxManage.exe startvm  $*
@@ -72,6 +71,7 @@ goto end
 @echo vmmimport import file into virtualbox"
 @echo vmmup run vm
 @echo vmmdown poweroff vm
+@echo vmmclone  clone a vm
 
 
 :end
