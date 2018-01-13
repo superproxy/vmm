@@ -21,8 +21,6 @@ tar -xvf  %ROMS%\CentOS-7-x86_64-Vagrant-1706_02.VirtualBox.box -C %ROMS%\centos
 goto end
 
 :ubuntu
-wget http://cloud.centos.org/centos/7/vagrant/x86_64/images/CentOS-7-x86_64-Vagrant-1706_02.VirtualBox.box  -o %ROMS%\ubuntu
-unzip  %ROMS%\ubuntu.box
 goto end
 
 

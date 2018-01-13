@@ -1,5 +1,9 @@
 @echo off
-set VIRTUAL_BOX_HOME=D:\Program Files\Oracle\VirtualBox
+set BOX_HOME=D:\Program Files\Oracle\VirtualBox
+if exist "%BOX_HOME%"  set VIRTUAL_BOX_HOME=%BOX_HOME%
+set BOX_HOME=C:\Program Files\Oracle\VirtualBox
+if exist "%BOX_HOME%"  set VIRTUAL_BOX_HOME=%BOX_HOME%
+
 set path=%VIRTUAL_BOX_HOME%;%path%
 
 
@@ -55,9 +59,9 @@ rem ============control vm end=====================
 
 
 
-@doskey vmmver=echo "VMM v1.0"
-@doskey vmmhelp=echo "vmminit vmmadd  vmmreg vmmup vmmver vmmhelp"
+@doskey vmmver=echo VMM v1.0
 
+if "%1"=="ver"  echo VMM V1.0
 if "%1"=="?" goto help
 if "%1"=="help" goto help
 rem @echo type vmm help for more information
@@ -68,9 +72,9 @@ goto end
 @echo *****VMM v1.0 a girl named v to help you^_^****** 
 @echo ============support cmds================="
 @echo vmmget   download vmfiles"
-@echo vmmimport import file into virtualbox"
-@echo vmmup run vm
-@echo vmmdown poweroff vm
+@echo vmmimport import a file into virtualbox"
+@echo vmmup run a vm
+@echo vmmdown poweroff a vm
 @echo vmmclone  clone a vm
 
 
