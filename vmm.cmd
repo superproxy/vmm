@@ -1,5 +1,8 @@
 @echo off
 
+rem https://support.microsoft.com/zh-cn/help/79245
+rem http://www.fpschultze.de/modules/smartfaq/faq.php?faqid=22 doskey problem
+
 rem ======virutalbox env====================
 set BOX_HOME=D:\Program Files\Oracle\VirtualBox
 if exist "%BOX_HOME%"  set VIRTUAL_BOX_HOME=%BOX_HOME%
@@ -122,3 +125,6 @@ rem exit /b
 
 
 rem goto :eof
+
+
+cmd /k

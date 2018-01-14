@@ -12,9 +12,9 @@ vmm is a simple way to manage VirtualBox!
 
 
 ### example1 freedos 
-#### vmm
-#### vmminit   freedos
-#### vmmstart  freedos
+####1. run  vmm.cmd      初始化环境
+####2. vmminit   freedos   执行命令 安装镜像
+####3. vmmstart  freedos   执行命令启动镜像
 
 ### example2  tinylinux
 #### vmm
