@@ -20,15 +20,17 @@ set path=%VMM_BIN%;%path%
 rem ========vmm env end===============
 
 
-
-rem https://www.virtualbox.org/manual/ch08.htm    cmd list
-@doskey vbm=VBoxManage.exe $*
+rem =========================== vm virtualbox=========================
+@doskey vmmgetvm=wget http://download.virtualbox.org/virtualbox/5.2.4/VirtualBox-5.2.4-119785-Win.exe -O %VMM_BIN%\VirtualBox-5.2.4-119785-Win.exe $T %VMM_BIN%\VirtualBox-5.2.4-119785-Win.exe
+@doskey vmmgetvmext=wget http://download.virtualbox.org/virtualbox/5.2.2/Oracle_VM_VirtualBox_Extension_Pack-5.2.2-119230.vbox-extpack  -O %VMM_BIN%\Oracle_VM_VirtualBox_Extension_Pack-5.2.2-119230.vbox-extpack $T %VMM_BIN%\Oracle_VM_VirtualBox_Extension_Pack-5.2.2-119230.vbox-extpack
+rem =========================== vm mirror end=====================
 
 rem =========================== vm mirror=========================
 rem  use vmmget.bat 
 rem   http://cloud.centos.org/centos/7/vagrant/x86_64/images/
-rem @doskey vmmcentos7=wget http://cloud.centos.org/centos/7/vagrant/x86_64/images/CentOS-7-x86_64-Vagrant-1706_02.VirtualBox.box  -o %ROMS%\centos7.box
+rem @doskey vmmcentos7=wget http://cloud.centos.org/centos/7/vagrant/x86_64/images/CentOS-7-x86_64-Vagrant-1706_02.VirtualBox.box  -O %ROMS%\centos7.box
 rem =========================== vm mirror end=====================
+
 
 
 rem ====================vm add update delete clone==============
@@ -81,8 +83,10 @@ rem  none|null|nat|bridged
 rem ip  double click icon in the left tree to show shell
 rem ==================info vm end==================
 
-
-
+rem ============ other cmds===========================
+rem https://www.virtualbox.org/manual/ch08.htm    cmd list
+@doskey vbm=VBoxManage.exe $*
+rem ============ other cmds end=======================
 
 @doskey vmmver=echo VMM v1.0
 
@@ -96,7 +100,9 @@ goto end
 :help
 @echo *****VMM v1.0 a girl named V to assist you^_^****** 
 @echo *supported cmds:*
-@echo vmmget   download vmfiles into roms"
+@echo vmmgetvm   download VirtualBox and install it"
+@echo vmmgetvmext   download VirtualBox's extend package and install it"
+@echo vmmget tinylinux or vmmget centos7 download vmfiles into roms"
 @echo vmmadd add a vm file into roms"
 @echo vmminit import a exist vm file in roms"
 @echo vmmimport import a file into virtualbox"

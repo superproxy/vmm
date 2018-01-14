@@ -10,6 +10,7 @@ if "%1"=="ubuntu" goto  ubuntu
 
 :help
 echo support vm
+echo tinylinux
 echo centos7
 echo ubuntu
 
