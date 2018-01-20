@@ -14,7 +14,8 @@ rem ======virutalbox env end====================
 
 
 rem ========vmm env===============
-set VMM_HOME=%cd%
+set VMM_HOME=%~dp0
+if "%VMM_HOME:~-1%" == "\"  set  VMM_HOME=%VMM_HOME:~0,-1%
 set ROMS=%VMM_HOME%\.box
 if not exist "%ROMS%"  md  "%ROMS%"
 
@@ -76,7 +77,7 @@ rem ==================info vm ==================
 @doskey vmminfo=VBoxManage.exe showvminfo $*
 @doskey vmmrename=VBoxManage.exe modifyvm $1 --name $2 
 
-rem memory Âçï‰ΩçMB
+rem memory µ•ŒªMB
 @doskey vmmmem=VBoxManage.exe modifyvm $1 --memory $2 
 @doskey vmmcpus=VBoxManage.exe modifyvm $1 --cpus $2 
 rem  none|null|nat|bridged
