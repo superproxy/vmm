@@ -6,8 +6,8 @@ rem http://www.fpschultze.de/modules/smartfaq/faq.php?faqid=22 doskey problem
 rem ======virutalbox env====================
 set BOX_HOME=D:\Program Files\Oracle\VirtualBox
 if exist "%BOX_HOME%"  set VIRTUAL_BOX_HOME=%BOX_HOME%
-set BOX_HOME=C:\Program Files\Oracle\VirtualBox
-if exist "%BOX_HOME%"  set VIRTUAL_BOX_HOME=%BOX_HOME%
+rem set BOX_HOME=C:\Program Files\Oracle\VirtualBox
+rem if exist "%BOX_HOME%"  set VIRTUAL_BOX_HOME=%BOX_HOME%
 
 set path=%VIRTUAL_BOX_HOME%;%path%
 rem ======virutalbox env end====================
@@ -27,6 +27,7 @@ rem ========vmm env end===============
 rem =========================== vm virtualbox=========================
 @doskey vmmgetvm=wget http://download.virtualbox.org/virtualbox/5.2.4/VirtualBox-5.2.4-119785-Win.exe -O %VMM_BIN%\VirtualBox-5.2.4-119785-Win.exe $T %VMM_BIN%\VirtualBox-5.2.4-119785-Win.exe
 @doskey vmmgetvmext=wget http://download.virtualbox.org/virtualbox/5.2.2/Oracle_VM_VirtualBox_Extension_Pack-5.2.2-119230.vbox-extpack  -O %VMM_BIN%\Oracle_VM_VirtualBox_Extension_Pack-5.2.2-119230.vbox-extpack $T %VMM_BIN%\Oracle_VM_VirtualBox_Extension_Pack-5.2.2-119230.vbox-extpack
+@doskey vmmui="%BOX_HOME%\VirtualBox.exe" $*
 rem =========================== vm mirror end=====================
 
 rem =========================== vm mirror=========================
