@@ -20,7 +20,7 @@ set ROMS=%VMM_HOME%\.box
 if not exist "%ROMS%"  md  "%ROMS%"
 
 set VMM_BIN=%VMM_HOME%\.bin
-set path=%VMM_BIN%;%path%
+set path=%VMM_HOME%;%VMM_BIN%;%path%
 rem ========vmm env end===============
 
 

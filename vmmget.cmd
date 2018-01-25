@@ -24,17 +24,35 @@ goto end
 
 
 :centos7
-echo http://cloud.centos.org/centos/7/vagrant/x86_64/images/CentOS-7-x86_64-Vagrant-1706_02.VirtualBox.box 
-wget http://cloud.centos.org/centos/7/vagrant/x86_64/images/CentOS-7-x86_64-Vagrant-1706_02.VirtualBox.box  -O %ROMS%\CentOS-7-x86_64-Vagrant-1706_02.VirtualBox.box
-md %ROMS%\centos7
-tar -xvf  %ROMS%\CentOS-7-x86_64-Vagrant-1706_02.VirtualBox.box -C %ROMS%\centos7   
+echo http://cloud.centos.org/centos/7/vagrant/x86_64/images/CentOS-7-x86_64-Vagrant-1801_01.VirtualBox.box
+if not exist "%ROMS%\CentOS-7.box" (
+wget http://cloud.centos.org/centos/7/vagrant/x86_64/images/CentOS-7-x86_64-Vagrant-1801_01.VirtualBox.box  -O %ROMS%\CentOS-7.box
+)
+if not exist %ROMS%\centos7 (
+	 md %ROMS%\centos7
+)
+cd %ROMS%
+tar -xvf  CentOS-7.box -C centos7   
 goto end
-:centos7_vagrant
-echo http://cloud.centos.org/centos/7/vagrant/x86_64/images/CentOS-7-x86_64-Vagrant-1706_02.VirtualBox.box 
-wget http://cloud.centos.org/centos/7/vagrant/x86_64/images/CentOS-7-x86_64-Vagrant-1706_02.VirtualBox.box  -O %ROMS%\CentOS-7-x86_64-Vagrant-1706_02.VirtualBox.box
-md %ROMS%\centos7
-tar -xvf  %ROMS%\CentOS-7-x86_64-Vagrant-1706_02.VirtualBox.box -C %ROMS%\centos7   
+
+
+:centos7
+echo http://cloud.centos.org/centos/7/vagrant/x86_64/images/CentOS-7-x86_64-Vagrant-1801_01.VirtualBox.box
+set url=http://cloud.centos.org/centos/7/vagrant/x86_64/images/CentOS-7.box
+if not exist "%ROMS%\CentOS-7.box" (
+wget %url%  -O %ROMS%\CentOS-7.box
+)
+if not exist %ROMS%\centos7 (
+	 md %ROMS%\centos7
+)
+cd %ROMS%
+tar -xvf  CentOS-7.box -C centos7   
+
+cd %VMM_HOME%
 goto end
+
+
+
 
 :ubuntu
 goto end
