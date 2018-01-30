@@ -4,10 +4,19 @@ rem https://support.microsoft.com/zh-cn/help/79245
 rem http://www.fpschultze.de/modules/smartfaq/faq.php?faqid=22 doskey problem
 
 rem ======virutalbox env====================
-set BOX_HOME=D:\Program Files\Oracle\VirtualBox
-if exist "%BOX_HOME%"  set VIRTUAL_BOX_HOME=%BOX_HOME%
-rem set BOX_HOME=C:\Program Files\Oracle\VirtualBox
-rem if exist "%BOX_HOME%"  set VIRTUAL_BOX_HOME=%BOX_HOME%
+set TRY_BOX_HOME=D:\Program Files\Oracle\VirtualBox
+if exist "%TRY_BOX_HOME%"  (
+ set BOX_HOME=%TRY_BOX_HOME%
+ set VIRTUAL_BOX_HOME=%BOX_HOME%
+)
+set TRY_BOX_HOME=C:\Program Files\Oracle\VirtualBox
+if exist "%TRY_BOX_HOME%"  (
+ set BOX_HOME=%TRY_BOX_HOME%
+ set VIRTUAL_BOX_HOME=%BOX_HOME%
+)
+
+echo %BOX_HOME%
+echo %VIRTUAL_BOX_HOME%
 
 set path=%VIRTUAL_BOX_HOME%;%path%
 rem ======virutalbox env end====================
@@ -69,6 +78,7 @@ rem ============control vm=====================
 @doskey vmmdown=VBoxManage.exe controlvm $1 poweroff $*
 @doskey vmmpause=VBoxManage.exe controlvm $1 pause  $*
 @doskey vmmresume=VBoxManage.exe controlvm $1 resume $*
+@doskey vmmreset=VBoxManage.exe controlvm $1 reset 
 @doskey vmmsleep=VBoxManage.exe controlvm $1 savestate  $*
 rem ============control vm end=====================
 
