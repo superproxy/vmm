@@ -4,19 +4,16 @@ rem https://support.microsoft.com/zh-cn/help/79245
 rem http://www.fpschultze.de/modules/smartfaq/faq.php?faqid=22 doskey problem
 
 rem ======virutalbox env====================
-set TRY_BOX_HOME=C:\Program Files\Oracle\VirtualBox
-if exist "%TRY_BOX_HOME%"  (
- set VIRTUAL_BOX_HOME=%BOX_HOME%
-)
+rem set TRY_BOX_HOME=C:\Program Files\Oracle\VirtualBox
+rem if exist "%TRY_BOX_HOME%"  (
+rem  set VIRTUAL_BOX_HOME=%BOX_HOME%
+rem )
 
 for /f "tokens=3,*" %%i in ('reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Oracle\VirtualBox" /v "InstallDir" ') do Set TRY_BOX_HOME=%%i
-if exist "%TRY_BOX_HOME%"  (
 if "%TRY_BOX_HOME:~-1%" == "\"  set  TRY_BOX_HOME=%TRY_BOX_HOME:~0,-1%
- set VIRTUAL_BOX_HOME=%BOX_HOME%
-)
-
-echo %BOX_HOME%
-echo %VIRTUAL_BOX_HOME%
+echo  box_home %TRY_BOX_HOME%
+set VIRTUAL_BOX_HOME=%TRY_BOX_HOME%
+echo vm_home %VIRTUAL_BOX_HOME%
 
 set path=%VIRTUAL_BOX_HOME%;%path%
 rem ======virutalbox env end====================
@@ -36,7 +33,7 @@ rem ========vmm env end===============
 rem =========================== vm virtualbox=========================
 @doskey vmmgetvm=wget http://download.virtualbox.org/virtualbox/5.2.4/VirtualBox-5.2.4-119785-Win.exe -O %VMM_BIN%\VirtualBox-5.2.4-119785-Win.exe $T %VMM_BIN%\VirtualBox-5.2.4-119785-Win.exe
 @doskey vmmgetvmext=wget http://download.virtualbox.org/virtualbox/5.2.2/Oracle_VM_VirtualBox_Extension_Pack-5.2.2-119230.vbox-extpack  -O %VMM_BIN%\Oracle_VM_VirtualBox_Extension_Pack-5.2.2-119230.vbox-extpack $T %VMM_BIN%\Oracle_VM_VirtualBox_Extension_Pack-5.2.2-119230.vbox-extpack
-@doskey vmmui="%BOX_HOME%\VirtualBox.exe" $*
+@doskey vmmui="%VIRTUAL_BOX_HOME%\VirtualBox.exe" $*
 rem =========================== vm mirror end=====================
 
 rem =========================== vm mirror=========================
