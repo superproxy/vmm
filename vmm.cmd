@@ -4,14 +4,14 @@ rem https://support.microsoft.com/zh-cn/help/79245
 rem http://www.fpschultze.de/modules/smartfaq/faq.php?faqid=22 doskey problem
 
 rem ======virutalbox env====================
-set TRY_BOX_HOME=D:\Program Files\Oracle\VirtualBox
-if exist "%TRY_BOX_HOME%"  (
- set BOX_HOME=%TRY_BOX_HOME%
- set VIRTUAL_BOX_HOME=%BOX_HOME%
-)
 set TRY_BOX_HOME=C:\Program Files\Oracle\VirtualBox
 if exist "%TRY_BOX_HOME%"  (
- set BOX_HOME=%TRY_BOX_HOME%
+ set VIRTUAL_BOX_HOME=%BOX_HOME%
+)
+
+for /f "tokens=3,*" %%i in ('reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Oracle\VirtualBox" /v "InstallDir" ') do Set TRY_BOX_HOME=%%i
+if exist "%TRY_BOX_HOME%"  (
+if "%TRY_BOX_HOME:~-1%" == "\"  set  TRY_BOX_HOME=%TRY_BOX_HOME:~0,-1%
  set VIRTUAL_BOX_HOME=%BOX_HOME%
 )
 
