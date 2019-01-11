@@ -1,6 +1,5 @@
-vmm
-vmmget tinylinux
-vmminit tinylinux
-vbm  modifyvm "Tiny Linux template"  --name tinylinux 
-vmmstart  tinylinux
-vmmclone  tinylinux  tinylinux2
+call vmm get tinylinux
+call vmm init tinylinux
+call vmm rename "Tiny Linux template" tinylinux 
+call vmm start  tinylinux
+call vmm clone  tinylinux  tinylinux2

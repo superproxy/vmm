@@ -3,11 +3,17 @@
 rem https://support.microsoft.com/zh-cn/help/79245
 rem http://www.fpschultze.de/modules/smartfaq/faq.php?faqid=22 doskey problem
 
+
+if "%vmm_init%"=="" (
+ goto doinit
+) else (
+   goto  start
+)
+
+:doinit
+echo "init vmm..."
+set vmm_init=true
 rem ======virutalbox env====================
-rem set TRY_BOX_HOME=C:\Program Files\Oracle\VirtualBox
-rem if exist "%TRY_BOX_HOME%"  (
-rem  set VIRTUAL_BOX_HOME=%BOX_HOME%
-rem )
 
 for /f "tokens=3,*" %%i in ('reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Oracle\VirtualBox" /v "InstallDir" ') do Set TRY_BOX_HOME=%%i
 if "%TRY_BOX_HOME:~-1%" == "\"  set  TRY_BOX_HOME=%TRY_BOX_HOME:~0,-1%
@@ -28,112 +34,185 @@ if not exist "%ROMS%"  md  "%ROMS%"
 set VMM_BIN=%VMM_HOME%\.bin
 set path=%VMM_HOME%;%VMM_BIN%;%path%
 rem ========vmm env end===============
+rem
+goto end
+
+
+
+rem ==================supported   cmd==============================
+
+:start
+if "%1"=="ver"  echo VMM V1.0
+if "%1"=="?" goto help
+if "%1"=="help" goto help
+
+if   "%1"=="" (
+  goto help 
+) else (
+ goto  %1
+)
+goto end
 
 
 rem =========================== vm virtualbox=========================
-@doskey vmmgetvm=wget http://download.virtualbox.org/virtualbox/5.2.4/VirtualBox-5.2.4-119785-Win.exe -O %VMM_BIN%\VirtualBox-5.2.4-119785-Win.exe $T %VMM_BIN%\VirtualBox-5.2.4-119785-Win.exe
-@doskey vmmgetvmext=wget http://download.virtualbox.org/virtualbox/5.2.2/Oracle_VM_VirtualBox_Extension_Pack-5.2.2-119230.vbox-extpack  -O %VMM_BIN%\Oracle_VM_VirtualBox_Extension_Pack-5.2.2-119230.vbox-extpack $T %VMM_BIN%\Oracle_VM_VirtualBox_Extension_Pack-5.2.2-119230.vbox-extpack
-@doskey vmmui="%VIRTUAL_BOX_HOME%\VirtualBox.exe" $*
-rem =========================== vm mirror end=====================
+:getvm
+wget http://download.virtualbox.org/virtualbox/5.2.4/VirtualBox-5.2.4-119785-Win.exe -O %VMM_BIN%\VirtualBox-5.2.4-119785-Win.exe $T %VMM_BIN%\VirtualBox-5.2.4-119785-Win.exe
+goto end
 
-rem =========================== vm mirror=========================
-rem  use vmmget.bat 
-rem   http://cloud.centos.org/centos/7/vagrant/x86_64/images/
-rem @doskey vmmcentos7=wget http://cloud.centos.org/centos/7/vagrant/x86_64/images/CentOS-7-x86_64-Vagrant-1706_02.VirtualBox.box  -O %ROMS%\centos7.box
-rem =========================== vm mirror end=====================
+:getvmext
+wget http://download.virtualbox.org/virtualbox/5.2.2/Oracle_VM_VirtualBox_Extension_Pack-5.2.2-119230.vbox-extpack  -O %VMM_BIN%\Oracle_VM_VirtualBox_Extension_Pack-5.2.2-119230.vbox-extpack $T %VMM_BIN%\Oracle_VM_VirtualBox_Extension_Pack-5.2.2-119230.vbox-extpack
+goto end
 
-
+:ui
+%VIRTUAL_BOX_HOME%\VirtualBox.exe" %2 %3 %4 
+goto end
 
 rem ====================vm add update delete clone==============
 rem ova
-@doskey vmmadd=copy $1 %ROMS%
-@doskey vmmroms=ls -1 %ROMS%
-@doskey vmminit=VBoxManage.exe import %ROMS%\$1.ova
+:add
+copy %2 %ROMS%
+goto end
+
+:roms
+ls -1 %ROMS%
+goto end
+
+:init
+VBoxManage.exe import %ROMS%\%2.ova
+goto end
 rem import $1  filepath .vof
-@doskey vmmiovf=VBoxManage.exe import %ROMS%\$1\box.ovf
-@doskey vmmimport=VBoxManage.exe import %ROMS%\$1 
-rem @doskey vmmpull=wget $1 -o $2 & VBoxManage.exe import $2 $*
+:iovf
+VBoxManage.exe import %ROMS%\%2\box.ovf
+goto end
+:import
+VBoxManage.exe import %ROMS%\%2 
+goto end
 
 rem clone $1 name  $2 newname
-@doskey vmmclone=VBoxManage.exe clonevm $1 --name $2 --register 
-@doskey vmmclone2=VBoxManage.exe clonevm $1 --name $2  --basefolder $3 --register $*
+:clone
+VBoxManage.exe clonevm %2 --name %3 --register 
+goto end
+
+:clone2
+VBoxManage.exe clonevm %2 --name %3  --basefolder %4 --register 
+goto end 
 
 rem  export $1 path
-@doskey vmmexport=VBoxManage.exe export $1 -o $1 $*
+:export
+VBoxManage.exe export %2 -o %2 
+goto end
 
-@doskey vmmcreate=VBoxManage.exe createvm --name $1 --ostype linux --register --basefolder $2 $*
-@doskey vmmcreatetest=VBoxManage.exe createvm --name test  --ostype linux --register
-@doskey vmmreg=VBoxManage.exe registervm $*
-@doskey vmmremove=VBoxManage.exe unregistervm $1 --delete 
+:create
+VBoxManage.exe createvm --name %2 --ostype linux --register --basefolder %3 
+goto end
+
+:createtest
+VBoxManage.exe createvm --name test  --ostype linux --register
+goto end
+:reg
+VBoxManage.exe registervm %2 
+goto end
+
+:remove
+VBoxManage.exe unregistervm %2 --delete 
+goto end
 rem ====================vm add update delete clone  end==============
 
 rem ============control vm=====================
-@doskey vmmstart=VBoxManage.exe startvm $1 $*
-@doskey vmmup=VBoxManage.exe startvm $1 --type headless 
-@doskey vmmstartgui=VBoxManage.exe startvm  $*
-@doskey vmmstop=VBoxManage.exe controlvm $1 poweroff $*
-@doskey vmmdown=VBoxManage.exe controlvm $1 poweroff $*
-@doskey vmmpause=VBoxManage.exe controlvm $1 pause  $*
-@doskey vmmresume=VBoxManage.exe controlvm $1 resume $*
-@doskey vmmreset=VBoxManage.exe controlvm $1 reset 
-@doskey vmmsleep=VBoxManage.exe controlvm $1 savestate  $*
-rem ============control vm end=====================
+:start
+VBoxManage.exe startvm %2 
+goto end
+:up
+VBoxManage.exe startvm %2 --type headless 
+goto end
+:startgui
+VBoxManage.exe startvm  %2
+goto end
+:stop
+VBoxManage.exe controlvm %2 poweroff 
+goto end
+:down
+VBoxManage.exe controlvm %2 poweroff
+goto end
+:pause
+VBoxManage.exe controlvm %2 pause 
+goto end
+:resume
+VBoxManage.exe controlvm %2 resume
+goto end
+:reset
+VBoxManage.exe controlvm %2 reset 
+goto end
+:sleep
+VBoxManage.exe controlvm %2 savestate
+goto end
+===========control vm end=====================
 
 rem ==================info vm ==================
-@doskey vmmlist=VBoxManage.exe list vms$*
-@doskey vmmps=VBoxManage.exe list runningvms $*
-@doskey vmminfo=VBoxManage.exe showvminfo $*
-@doskey vmmrename=VBoxManage.exe modifyvm $1 --name $2 
+:list
+VBoxManage.exe list vms %2
+goto end
+:ps
+VBoxManage.exe list runningvms %2
+goto end
+:info
+VBoxManage.exe showvminfo %2
+goto end
+
+:rename
+VBoxManage.exe modifyvm %2 --name %3 
+goto end
 
 rem memory µ¥Î»MB
-@doskey vmmmem=VBoxManage.exe modifyvm $1 --memory $2 
-@doskey vmmcpus=VBoxManage.exe modifyvm $1 --cpus $2 
+:mem
+VBoxManage.exe modifyvm %2 --memory %3 
+goto end
+:cpus
+VBoxManage.exe modifyvm %2 --cpus %3 
+goto end
 rem  none|null|nat|bridged
-@doskey vmmnetwork=VBoxManage.exe modifyvm $1 --nic $2 
-@doskey vmmnetwork_nat=VBoxManage.exe modifyvm $1 --nic1 nat 
-@doskey vmmnetwork_b=VBoxManage.exe modifyvm $1 --nic1  bridged
+:network
+VBoxManage.exe modifyvm %2 --nic %3 
+goto end
+:network_nat
+VBoxManage.exe modifyvm %2 --nic1 nat 
+goto end
+:network_b
+VBoxManage.exe modifyvm %2 --nic1  bridged
+goto end
 rem ip  double click icon in the left tree to show shell
 rem ==================info vm end==================
 
 rem ============ other cmds===========================
 rem https://www.virtualbox.org/manual/ch08.htm    cmd list
-@doskey vbm=VBoxManage.exe $*
+:vbm
+VBoxManage.exe %2 %3
+goto end
 rem ============ other cmds end=======================
+:ver
+echo vmm v1.0
+goto end
 
-@doskey vmmver=echo VMM v1.0
-
-if "%1"=="ver"  echo VMM V1.0
-if "%1"=="?" goto help
-if "%1"=="help" goto help
-rem @echo type vmm help for more information
-
+:get
+%~dp0vmmget.cmd %2
 goto end
 
 :help
+@echo vmm getvm   download VirtualBox and install it"
+@echo vmm getvmext   download VirtualBox's extend package and install it"
+@echo vmm get tinylinux or vmmget centos7 download vmfiles into roms"
+@echo vmm add add a vm file into roms"
+@echo vmm init import a exist vm file in roms"
+@echo vmm import import a file into virtualbox"
+@echo vmm up run a vm
+@echo vmm down poweroff a vm
+@echo vmm clone  clone a vm
+@echo vmm remove  remove a vm
+@echo vmm info  centos7  # information about centos7
+@echo vmm cpus centos7 2   #2 cores 
+@echo vmm mem centos7 1000
+@echo vmm rename centos7 mycentos
 @echo *****VMM v1.0 a girl named V to assist you^_^****** 
-@echo *supported cmds:*
-@echo vmmgetvm   download VirtualBox and install it"
-@echo vmmgetvmext   download VirtualBox's extend package and install it"
-@echo vmmget tinylinux or vmmget centos7 download vmfiles into roms"
-@echo vmmadd add a vm file into roms"
-@echo vmminit import a exist vm file in roms"
-@echo vmmimport import a file into virtualbox"
-@echo vmmup run a vm
-@echo vmmdown poweroff a vm
-@echo vmmclone  clone a vm
-@echo vmmremove  remove a vm
-@echo vmminfo  centos7  # information about centos7
-@echo vmmcpus centos7 2   #2 cores 
-@echo vmmmem centos7 1000
-@echo vmmrename centos7 mycentos
 
 
 :end
-
-rem exit /b
-
-
-rem goto :eof
-
-
-cmd /k
