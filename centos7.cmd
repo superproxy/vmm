@@ -1,8 +1,8 @@
-#echo 推荐独立下载
-vmm get  centos7 
-vmm init centos7
-vmm vbm  modifyvm "centos-7-1-1.x86_64"  --name centos7
-vmm start  centos7
-vmm clone  centos7  centos7_2
+echo 推荐独立下载
+call vmm get  centos7 
+call vmm init centos7
+call vmm rename "centos-7-1-1.x86_64" centos7
+call vmm start  centos7
+call vmm clone  centos7  centos7_2
 
 rem   user:root  password:vagrant
